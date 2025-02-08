@@ -33,7 +33,7 @@ jobs:
       - name: Download linux build
         uses: actions/download-artifact@v4
         with:
-          name: demopkg-linux-latest
+          name: demopkg-ubuntu-latest
           path: linux
       - name: Download macos build
         uses: actions/download-artifact@v4
