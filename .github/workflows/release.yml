@@ -19,12 +19,14 @@ jobs:
         uses: actions/checkout@v4
       - name: Build
         run: cargo build --release
+      - name: Rename
+        run: |
+          mv target/release/demopkg demopkg-${{ matrix.os }}
       - name: Archive binary
         uses: actions/upload-artifact@v4
         with:
           name: demopkg-${{ matrix.os }}
-          path: |
-            target/release/demopkg
+          path: demopkg-${{ matrix.os }}
 
   release:
     needs: build
@@ -37,14 +39,7 @@ jobs:
           awk '/^# / { if (version_block) { exit } version_block = 1; next } version_block' CHANGELOG.md > gh_changelog
       - name: Download linux build
         uses: actions/download-artifact@v4
-        with:
-          name: demopkg-ubuntu-latest
-          path: linux
-      - name: Download macos build
-        uses: actions/download-artifact@v4
-        with:
-          name: demopkg-macos-latest
-          path: macos
+
       - name: wtf?
         run: |
           pwd
