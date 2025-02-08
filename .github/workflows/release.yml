@@ -24,12 +24,12 @@ jobs:
           echo os_name=$(echo ${{ runner.os }} | tr A-Z a-z) >> ${GITHUB_ENV}
       - name: Rename
         run: |
-          mv target/release/demopkg demopkg-${{ env.os_name }}
+          mv target/release/riirview riirview-${{ env.os_name }}
       - name: Archive binary
         uses: actions/upload-artifact@v4
         with:
-          name: demopkg-${{ env.os_name }}
-          path: demopkg-${{ env.os_name }}
+          name: riirview-${{ env.os_name }}
+          path: riirview-${{ env.os_name }}
 
   release:
     needs: build
@@ -51,5 +51,5 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: demopkg-*/*
+          files: riirview-*/*
           body_path: gh_changelog
