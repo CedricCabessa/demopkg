@@ -1,0 +1,22 @@
+name: Main
+
+on:
+  push:
+    tags:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build
+        run: cargo build --release
+      - name: extract changelog
+        run: awk ' /^#\ / { if (version_block) { exit } version_block = 1 } version_block'
+  CHANGELOG.md > gh_changelog
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: target/release/demopkg
+          body_path: gh_changelog
