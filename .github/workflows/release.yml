@@ -21,7 +21,7 @@ jobs:
         run: cargo build --release
       - name: Rename
         run: |
-          mv target/release/demopkg demopkg-${{ matrix.os }}
+          mv target/release/demopkg demopkg-$(echo ${{ runner.os }} | tr A-Z a-Z)
       - name: Archive binary
         uses: actions/upload-artifact@v4
         with:
@@ -48,5 +48,5 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: linux/*, macos/*
+          files: demopkg-*
           body_path: gh_changelog
