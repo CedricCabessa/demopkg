@@ -30,15 +30,26 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Download bins
+      - name: Download linux build
         uses: actions/download-artifact@v4
+        name: demopkg-linux-latest
+        path: linux
+      - name: Download macos build
+        uses: actions/download-artifact@v4
+        name: demopkg-macos-latest
+        path: macos
       - name: Checkout
         uses: actions/checkout@v4
       - name: Extract changelog
         run: |
           awk '/^# / { if (version_block) { exit } version_block = 1; next } version_block' CHANGELOG.md > gh_changelog
+
+      - name: wtf?
+        run: |
+          ls -lR
+
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: demopkg-ubuntu-latest/**, demopkg-macos-latest/**, demopkg-*/*
+          files: linux/*, macos/*
           body_path: gh_changelog
