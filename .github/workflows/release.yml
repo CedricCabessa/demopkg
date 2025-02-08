@@ -40,5 +40,5 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: demopkg-windows-latest/*, demopkg-ubuntu-latest/*
+          files: demopkg-ubuntu-latest/**, demopkg-macos-latest/**, demopkg-*/*
           body_path: gh_changelog
