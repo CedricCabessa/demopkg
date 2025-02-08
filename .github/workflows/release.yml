@@ -14,7 +14,7 @@ jobs:
         run: cargo build --release
       - name: extract changelog
         run: |
-          awk '/^#\ / { if (version_block) { exit } version_block = 1 } version_block' CHANGELOG.md > gh_changelog
+          awk '/^# / { if (version_block) { exit } version_block = 1 } version_block' CHANGELOG.md > gh_changelog
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
