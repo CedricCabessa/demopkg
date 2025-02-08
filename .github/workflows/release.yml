@@ -19,14 +19,17 @@ jobs:
         uses: actions/checkout@v4
       - name: Build
         run: cargo build --release
+      - name: OS name
+        run: |
+          echo os_name=$(echo ${{ runner.os }} | tr A-Z a-z) >> ${GITHUB_ENV}
       - name: Rename
         run: |
-          mv target/release/demopkg demopkg-$(echo ${{ runner.os }} | tr A-Z a-Z)
+          mv target/release/demopkg demopkg-${{ env.os_name }}
       - name: Archive binary
         uses: actions/upload-artifact@v4
         with:
-          name: demopkg-${{ matrix.os }}
-          path: demopkg-${{ matrix.os }}
+          name: demopkg-${{ env.os_name }}
+          path: demopkg-${{ env.os_name }}
 
   release:
     needs: build
